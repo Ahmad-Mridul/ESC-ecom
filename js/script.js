@@ -45,7 +45,7 @@ const displayProducts = (allProducts) => {
 
                 <div class="flex gap-2">
                     <button class="btn btn-outline-white shadow flex-grow px-5 py-1"><i class="fa-regular fa-eye"></i> Details</button>
-                    <button class="btn btn-primary shadow flex-grow"><i class="fa-solid fa-cart-shopping"></i> Details</button>
+                    <button class="btn btn-primary shadow flex-grow"><i class="fa-solid fa-cart-shopping"></i> Add</button>
                 </div>
             </div>
         `
