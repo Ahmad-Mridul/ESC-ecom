@@ -144,12 +144,45 @@ let cartNumber = document.getElementById("cartNumber");
 let cartItems = 0;
 // localStorage.setItem("CartItems",cartItems);
 const handleAddToCart = (id) => {
-    cartItems+=1;
+    cartItems += 1;
     // let localItems = parseInt(localStorage.getItem("CartItems"));
-    localStorage.setItem("CartItems",cartItems);
+    localStorage.setItem("CartItems", cartItems);
     // console.log(typeof localItems);
     cartNumber.innerText = localStorage.getItem("CartItems");
     cartProductsIDList.push(id);
-    localStorage.setItem("CartProductsIDs",cartProductsIDList);
+    localStorage.setItem("CartProductsIDs", cartProductsIDList);
 }
 cartNumber.innerText = localStorage.getItem("CartItems");
+
+
+let drawerUl = document.getElementById("drawer-items");
+
+const loadCartProductsList = async () => {
+    let count = 0;
+    const cartProductsID = localStorage.getItem("CartProductsIDs");
+    const idsArray = cartProductsID ? cartProductsID.split(",").map(Number) : [];
+
+    // fetch products
+    const res = await fetch("https://fakestoreapi.com/products");
+    const products = await res.json();
+
+    // filtered Product
+    const filteredProducts = products.filter(product => idsArray.includes(product.id));
+    filteredProducts.map(product => {
+        let drawerContentLi = document.createElement("li");
+        count += 1;
+        drawerContentLi.innerHTML = `
+            <div class="flex">
+                <div><span class="font-bold">${count}.</span>  ${product.title}</div>
+                <div>$${product.price}</div>
+            </div>
+            <hr class="h-2 w-full text-blue-500"/>
+        `;
+        drawerUl.append(drawerContentLi);
+    });
+}
+loadCartProductsList();
+
+
+{/* <li><a>Sidebar Item 1</a></li>
+<li><a>Sidebar Item 2</a></li> */}

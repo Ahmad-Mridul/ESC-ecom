@@ -16,14 +16,15 @@
 </head>
 
 <body>
+    <!-- Desktop Nav -->
     <nav class="hidden md:block">
-        <div class="md:px-35 navbar bg-base-100 shadow-sm flex justify-between">
-            <div class="navbar-start">
+        <div class="md:px-35 navbar bg-base-100 shadow-sm flex justify-around items-center">
+            <div class="">
 
                 <a href="/" class="btn btn-ghost text-xl text-blue-600 font-bold">SwiftCart</a>
 
             </div>
-            <div class="navbar-center">
+            <div class="flex">
                 <ul class="menu menu-horizontal  px-1 hidden lg:flex">
                     <li><a href="/">Home</a></li>
                     <li><a href="/products.html">Products</a></li>
@@ -47,13 +48,29 @@
                     </ul>
                 </div>
             </div>
-            <div class="navbar-end">
-                <a class="text-xl cursor-pointer text-blue-600 bg-none"><i class="fa-solid fa-cart-plus"></i>
-                    <div class="badge badge-sm"><span id="cartNumber"></span></div>
-                </a>
+            <div class="flex justify-center items-center">
+
+                <div class="drawer drawer-end">
+                    <input id="my-drawer-5" type="checkbox" class="drawer-toggle" />
+                    <div class="drawer-content">
+                        <!-- Page content here -->
+                        <label for="my-drawer-5" class="btn drawer-button"><i class="fa-solid fa-cart-plus text-blue-500"></i>
+                            <div class="badge badge-sm"><span id="cartNumber"></span></div>
+                        </label>
+                    </div>
+                    <div class="drawer-side">
+                        <label for="my-drawer-5" aria-label="close sidebar" class="drawer-overlay"></label>
+                        <ul class="menu bg-base-200 min-h-full w-80 p-4" id="drawer-items">
+                            <!-- Sidebar content here -->
+                            
+                            
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
+    <!-- Mobile Nav -->
     <nav class="md:hidden">
         <div class="md:px-35 navbar bg-base-100 shadow-sm flex justify-between">
             <div class="navbar-start">
