@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+    <link rel="stylesheet" href="styles/style.css">
+    <!-- tailwindcss -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- daisyUI -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/c2894b3add.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <nav class="">
+        <div class="md:px-35 navbar bg-base-100 shadow-sm flex justify-between">
+            <div class="navbar-start">
+
+                <a href="/" class="btn btn-ghost text-xl text-blue-600 font-bold">SwiftCart</a>
+
+            </div>
+            <div class="navbar-center">
+                <ul class="menu menu-horizontal  px-1 hidden lg:flex">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/products.html">Products</a></li>
+                    <li><a>About</a></li>
+                    <li><a>Contact</a></li>
+                </ul>
+                <div class="dropdown">
+                    <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h8m-8 6h16" />
+                        </svg>
+                    </div>
+                    <ul tabindex="-1"
+                        class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/products.html">Products</a></li>
+                        <li><a>About</a></li>
+                        <li><a>Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="navbar-end">
+                <a class="text-xl cursor-pointer text-blue-600 bg-none"><i class="fa-solid fa-cart-plus"></i></a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="px-35 py-15 space-y-3">
+        <p class="text-5xl font-bold mb-5 text-center ">Our Products</p>
+        <!-- category tabs -->
+         <div id="categories_tab" class="flex justify-center gap-2">
+            <button class="btn" id="all">All</button>
+         </div>
+        <div id="our_products" class="flex flex-wrap gap-5 ">
+
+        </div>
+    </section>
+
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer sm:footer-horizontal bg-[#1E2939] text-neutral-content p-10 px-35">
+            <nav>
+                <h6 class="footer-title">SwiftCart</h6>
+                <p>Your one stop shop for your fashion <br> and lifestyle needs. Quality products, fast <br> delivery,
+                    and
+                    excelent support</p>
+            </nav>
+            <nav>
+                <h6 class="footer-title">Quick Links</h6>
+                <a class="link link-hover">Home</a>
+                <a class="link link-hover">Products</a>
+                <a class="link link-hover">About</a>
+                <a class="link link-hover">Contact</a>
+            </nav>
+            <nav>
+                <h6 class="footer-title">Support</h6>
+                <a class="link link-hover">FAQ</a>
+                <a class="link link-hover">Shipping</a>
+                <a class="link link-hover">Privacy policy</a>
+                <a class="link link-hover">Returns</a>
+            </nav>
+            <nav>
+                <h6 class="footer-title">Subscribe to our newsletter</h6>
+                <p>The latest news, articles, and resources,<br> sent to your inbox weekly</p>
+                <div class="flex">
+                    <input type="text" name="" id="" class="bg-white text-black px-2 rounded-l"
+                        placeholder="Enter your email">
+                    <input type="submit" value="Subscribe" class="btn btn-primary">
+                </div>
+            </nav>
+        </div>
+        <section class="py-2 px-35 bg-[#1E2939]">
+            <hr class=" text-white h-2 w-full">
+            <div class="flex justify-between text-white">
+                <p>@ 2026 SwiftCart, All rights reserved</p>
+                <div>
+                    <i class="fa-brands fa-facebook-f"></i>
+                    <i class="fa-brands fa-x-twitter"></i>
+                    <i class="fa-brands fa-instagram"></i>
+                    <i class="fa-brands fa-square-linkedin"></i>
+                    <i class="fa-regular fa-envelope"></i>
+                </div>
+            </div>
+        </section>
+    </footer>
+
+    <script src="js/products.js"></script>
+</body>
+
+</html>
