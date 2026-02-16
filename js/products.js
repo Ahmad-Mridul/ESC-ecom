@@ -1,17 +1,22 @@
 let ourProducts = document.getElementById("our_products");
+let spinner = document.getElementById("spinner");
 // let allProducts = [];
 async function loadProduct() {
+    spinner.classList.remove("hidden");
     await fetch("https://fakestoreapi.com/products")
         .then(res => res.json())
         .then(data => {
             allProducts = data;
-            displayProducts(data);
+            setTimeout(() => {
+                displayProducts(data);
+                spinner.classList.add("hidden");
+            }, 3000);
         })
 }
 loadProduct()
 
 const displayProducts = (allProducts) => {
-    ourProducts.innerHTML="";
+    ourProducts.innerHTML = "";
     allProducts.map(product => {
         let cardDiv = document.createElement("div");
         // let productName = document.createElement("p");
@@ -57,6 +62,12 @@ const displayProducts = (allProducts) => {
 
 let categoryesDiv = document.getElementById("categories_tab");
 async function loadCategories() {
+
+    let allBtn = document.createElement("button");
+    allBtn.classList.add("btn");
+    allBtn.id = "all";
+    allBtn.innerText = "All";
+    categoryesDiv.append(allBtn);
     await fetch("https://fakestoreapi.com/products/categories")
         .then(res => res.json())
         .then(data => {
@@ -65,6 +76,7 @@ async function loadCategories() {
                 button.classList.add("btn");
                 button.id = cat;
                 button.innerText = cat;
+                categoryesDiv.append("")
                 categoryesDiv.append(button);
                 button.addEventListener("click", () => {
                     loadCategoryProduct(cat);
@@ -75,14 +87,24 @@ async function loadCategories() {
 loadCategories();
 
 let allProductButton = document.getElementById("all");
-allProductButton.addEventListener("click",()=>{
+allProductButton.addEventListener("click", () => {
+    ourProducts.innerHTML = "";
     loadProduct();
 })
 
 const loadCategoryProduct = async (category) => {
+    spinner.classList.remove("hidden");
+    ourProducts.innerHTML = "";
+    const randomDelay = Math.floor(Math.random() * 2000) + 1000;
+    console.log(randomDelay);
     await fetch(`https://fakestoreapi.com/products/category/${category}`)
-        .then(res => res.json())
-        .then(data => displayProducts(data))
+    .then(res => res.json())
+    .then(data => {
+        setTimeout(()=>{
+            spinner.classList.add("hidden");
+            displayProducts(data);
+            },randomDelay);
+        })
 }
 
 

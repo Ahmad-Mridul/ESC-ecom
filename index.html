@@ -48,7 +48,10 @@
                 </div>
             </div>
             <div class="navbar-end">
-                <a class="text-xl cursor-pointer text-blue-600 bg-none"><i class="fa-solid fa-cart-plus"></i></a>
+                <a class="text-xl cursor-pointer text-blue-600 bg-none">
+                    <i class="fa-solid fa-cart-plus"></i>
+                    <div class="badge badge-sm"></div>
+                </a>
             </div>
         </div>
     </nav>
@@ -61,7 +64,7 @@
             </div>
 
             <div class="">
-                <a class="text-xl cursor-pointer text-blue-600 bg-none"><i class="fa-solid fa-cart-plus"></i></a>
+                <a class="text-xl cursor-pointer text-blue-600 bg-none"><i class="fa-solid fa-cart-plus"></i><div class="badge badge-sm"></div></a>
             </div>
             <div class="">
                 <ul class="menu menu-horizontal  px-1 hidden lg:flex">
@@ -158,6 +161,7 @@
             
 
         </div> -->
+        <span class="loading loading-dots loading-xl hidden" id="spinner"></span>
         <div id="trending_product" class="flex flex-wrap gap-5 justify-center">
 
         </div>
@@ -210,6 +214,18 @@
             </div>
         </section>
     </footer>
+
+
+
+    <dialog id="my_modal_1" class="modal">
+        <div class="modal-box" id="modal_box">
+            
+        </div>
+    </dialog>
+
+
+
+
     <script src="js/script.js"></script>
 </body>
 
