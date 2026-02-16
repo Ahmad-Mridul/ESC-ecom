@@ -1,6 +1,8 @@
 let ourProducts = document.getElementById("our_products");
 let spinner = document.getElementById("spinner");
 let modalBox = document.getElementById("modal_box");
+
+
 // let allProducts = [];
 async function loadProduct() {
     spinner.classList.remove("hidden");
@@ -51,7 +53,7 @@ const displayProducts = (allProducts) => {
 
                 <div class="flex gap-2">
                     <button class="btn btn-outline-white shadow flex-grow px-5 py-1" onclick="my_modal_1.showModal()"><i class="fa-regular fa-eye"></i> Details</button>
-                    <button class="btn btn-primary shadow flex-grow"><i class="fa-solid fa-cart-shopping"></i> Add</button>
+                    <button class="btn btn-primary shadow flex-grow" onClick="handleAddToCart()"><i class="fa-solid fa-cart-shopping"></i> Add</button>
                 </div>
             </div>
         `
@@ -64,7 +66,7 @@ const displayProducts = (allProducts) => {
             </div>
             <div class="mt-5">
                 <button class="btn btn-info text-white">Buy Now</button>
-                <button class="btn btn-warning text-white">Add to Cart</button>
+                <button class="btn btn-warning text-white" onClick="handleAddToCart()">Add to Cart</button>
             </div>
             <div class="modal-action">
                 <form method="dialog">
@@ -118,13 +120,28 @@ const loadCategoryProduct = async (category) => {
     const randomDelay = Math.floor(Math.random() * 2000) + 1000;
     // console.log(randomDelay);
     await fetch(`https://fakestoreapi.com/products/category/${category}`)
-    .then(res => res.json())
-    .then(data => {
-        spinner.classList.add("hidden");
-        displayProducts(data);
-        // setTimeout(()=>{
-        //     },randomDelay);
+        .then(res => res.json())
+        .then(data => {
+            spinner.classList.add("hidden");
+            displayProducts(data);
+            // setTimeout(()=>{
+            //     },randomDelay);
         })
 }
 
 
+// if(cartItems===0){
+//    cartNumber.innerText = ""; 
+// }else{
+//     cartNumber.innerText = cartItems; 
+// }
+let cartNumber = document.getElementById("cartNumber");
+let cartItems = 0;
+cartNumber.innerText = localStorage.getItem("CartItems");
+const handleAddToCart = () => {
+    let parseItems = parseInt(localStorage.getItem("CartItems"));
+    parseItems += 1;
+    localStorage.setItem("CartItems",parseItems);
+    cartNumber.innerText = localStorage.getItem("CartItems");
+}
+// cartNumber.innerText = cartItems;
