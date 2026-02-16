@@ -3,13 +3,13 @@ let spinner = document.getElementById("spinner");
 let modalBox = document.getElementById("modal_box");
 
 
-// let allProducts = [];
+
 async function loadProduct() {
     spinner.classList.remove("hidden");
     await fetch("https://fakestoreapi.com/products")
         .then(res => res.json())
         .then(data => {
-            allProducts = data;
+            // allProducts = data;
             displayProducts(data);
             spinner.classList.add("hidden");
             // setTimeout(() => {
@@ -53,7 +53,7 @@ const displayProducts = (allProducts) => {
 
                 <div class="flex gap-2">
                     <button class="btn btn-outline-white shadow flex-grow px-5 py-1" onclick="my_modal_1.showModal()"><i class="fa-regular fa-eye"></i> Details</button>
-                    <button class="btn btn-primary shadow flex-grow" onClick="handleAddToCart()"><i class="fa-solid fa-cart-shopping"></i> Add</button>
+                    <button class="btn btn-primary shadow flex-grow" onClick="handleAddToCart(${product.id})"><i class="fa-solid fa-cart-shopping"></i> Add</button>
                 </div>
             </div>
         `
@@ -135,13 +135,21 @@ const loadCategoryProduct = async (category) => {
 // }else{
 //     cartNumber.innerText = cartItems; 
 // }
+
+
+
+
+let cartProductsIDList = [];
 let cartNumber = document.getElementById("cartNumber");
 let cartItems = 0;
-cartNumber.innerText = localStorage.getItem("CartItems");
-const handleAddToCart = () => {
-    let parseItems = parseInt(localStorage.getItem("CartItems"));
-    parseItems += 1;
-    localStorage.setItem("CartItems",parseItems);
+// localStorage.setItem("CartItems",cartItems);
+const handleAddToCart = (id) => {
+    cartItems+=1;
+    // let localItems = parseInt(localStorage.getItem("CartItems"));
+    localStorage.setItem("CartItems",cartItems);
+    // console.log(typeof localItems);
     cartNumber.innerText = localStorage.getItem("CartItems");
+    cartProductsIDList.push(id);
+    localStorage.setItem("CartProductsIDs",cartProductsIDList);
 }
-// cartNumber.innerText = cartItems;
+cartNumber.innerText = localStorage.getItem("CartItems");
