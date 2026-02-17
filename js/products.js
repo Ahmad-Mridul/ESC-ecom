@@ -83,36 +83,51 @@ const displayProducts = (allProducts) => {
 
 
 let categoryesDiv = document.getElementById("categories_tab");
-async function loadCategories() {
 
+async function loadCategories() {
     let allBtn = document.createElement("button");
-    allBtn.classList.add("btn");
+    allBtn.classList.add("btn", "active");
     allBtn.id = "all";
     allBtn.innerText = "All";
     categoryesDiv.append(allBtn);
-    await fetch("https://fakestoreapi.com/products/categories")
-        .then(res => res.json())
-        .then(data => {
-            data.map(cat => {
-                let button = document.createElement("button");
-                button.classList.add("btn");
-                button.id = cat;
-                button.innerText = cat;
-                categoryesDiv.append("")
-                categoryesDiv.append(button);
-                button.addEventListener("click", () => {
-                    loadCategoryProduct(cat);
-                })
+
+    allBtn.addEventListener("click", () => {
+        ourProducts.innerHTML = "";
+        loadProduct();
+        updateActiveButton(allBtn); 
+    });
+
+    try {
+        const res = await fetch("https://fakestoreapi.com/products/categories");
+        const data = await res.json();
+
+        data.forEach(cat => {
+            let button = document.createElement("button");
+            button.classList.add("btn");
+            button.id = cat;
+            button.innerText = cat;
+            categoryesDiv.append(button);
+
+            button.addEventListener("click", () => {
+                loadCategoryProduct(cat);
+                updateActiveButton(button); 
             });
         });
+    } catch (error) {
+        console.error("Failed to load categories:", error);
+    }
 }
+
+const updateActiveButton = (clickedButton) => {
+    const allCategoryButtons = categoryesDiv.querySelectorAll("button");
+
+    allCategoryButtons.forEach(btn => btn.classList.remove("active"));
+    clickedButton.classList.add("active");
+}
+
 loadCategories();
 
-let allProductButton = document.getElementById("all");
-allProductButton.addEventListener("click", () => {
-    ourProducts.innerHTML = "";
-    loadProduct();
-})
+
 
 const loadCategoryProduct = async (category) => {
     spinner.classList.remove("hidden");
@@ -190,7 +205,7 @@ const loadCartProductsList = async () => {
     cartTbody.innerHTML = "";
 
     let count = 0;
-    let currentTotal = 0; 
+    let currentTotal = 0;
 
     const cartProductsID = localStorage.getItem("CartProductsIDs");
     const idsArray = cartProductsID ? cartProductsID.split(",").map(Number) : [];
@@ -203,9 +218,9 @@ const loadCartProductsList = async () => {
 
         if (product) {
             count += 1;
-            currentTotal += product.price; 
+            currentTotal += product.price;
 
-            
+
             const shortTitle = product.title.length > 15 ? product.title.substring(0, 15) + "..." : product.title;
 
             let tr = document.createElement("tr");
@@ -229,10 +244,10 @@ const handleDeleteCartItem = (id) => {
     const cartProductsID = localStorage.getItem("CartProductsIDs");
     const cartItemsNumber = localStorage.getItem("CartItems");
     let cartItems = parseInt(cartItemsNumber);
-    cartItems-=1;
+    cartItems -= 1;
     const idsArray = cartProductsID ? cartProductsID.split(",").map(Number) : [];
     idsArray.pop(id);
-    localStorage.setItem("CartProductsIDs",idsArray);
-    localStorage.setItem("CartItems",cartItems);
+    localStorage.setItem("CartProductsIDs", idsArray);
+    localStorage.setItem("CartItems", cartItems);
     loadCartProductsList();
 }
