@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SwiftCart - Home Page</title>
+    <link rel="icon" href="/Assets//clothes-rack.png" type="image/x-icon">
     <link rel="stylesheet" href="styles/style.css">
     <!-- tailwindcss -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
@@ -17,13 +18,13 @@
 
 <body>
     <nav class="hidden md:block">
-        <div class="md:px-35 navbar bg-base-100 shadow-sm flex justify-between">
-            <div class="navbar-start">
+        <div class="md:px-35 navbar bg-base-100 shadow-sm flex justify-around items-center">
+            <div class="">
 
                 <a href="/" class="btn btn-ghost text-xl text-blue-600 font-bold">SwiftCart</a>
 
             </div>
-            <div class="navbar-center">
+            <div class="flex">
                 <ul class="menu menu-horizontal  px-1 hidden lg:flex">
                     <li><a href="/">Home</a></li>
                     <li><a href="/products.html">Products</a></li>
@@ -47,14 +48,46 @@
                     </ul>
                 </div>
             </div>
-            <div class="navbar-end">
-                <a class="text-xl cursor-pointer text-blue-600 bg-none">
-                    <i class="fa-solid fa-cart-plus"></i>
-                    <div class="badge badge-sm"></div>
-                </a>
+            <div class="flex justify-center items-center">
+
+                <div class="drawer drawer-end">
+                    <label for="my-drawer-5" class="btn drawer-button"><i
+                            class="fa-solid fa-cart-plus text-blue-500"></i>
+                        <div class="badge badge-sm"><span id="cartNumber"></span></div>
+                    </label>
+                    <input id="my-drawer-5" type="checkbox" class="drawer-toggle" />
+
+                    <div class="drawer-side z-50">
+                        <label for="my-drawer-5" aria-label="close sidebar" class="drawer-overlay"></label>
+                        <div class="bg-base-200 min-h-full w-80 p-4 flex flex-col">
+                            <h2 class="text-xl font-bold mb-4">🛒Your Cart</h2>
+
+                            <div class="overflow-x-auto flex-grow">
+                                <table class="table w-full">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Item</th>
+                                            <th>Price</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="cart-tbody">
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="mt-4 pt-4 border-t-2 border-blue-500 flex justify-between items-center">
+                                <span class="text-lg font-bold">Total Cost:</span>
+                                <span class="text-xl font-bold text-blue-600" id="cart-total-price">$0.00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
+    <!-- Mobile Nav -->
     <nav class="md:hidden">
         <div class="md:px-35 navbar bg-base-100 shadow-sm flex justify-between">
             <div class="navbar-start">
@@ -63,9 +96,45 @@
 
             </div>
 
-            <div class="">
-                <a class="text-xl cursor-pointer text-blue-600 bg-none"><i class="fa-solid fa-cart-plus"></i><div class="badge badge-sm"></div></a>
+            <!-- <div class=""> -->
+            <div>
+                <div class="drawer drawer-end">
+                    <label for="mobile-drawer" class="btn drawer-button"><i
+                            class="fa-solid fa-cart-plus text-blue-500"></i>
+                        <div class="badge badge-sm"><span id="mobile-cartNumber"></span></div>
+                    </label>
+                    <input id="mobile-drawer" type="checkbox" class="drawer-toggle" />
+
+                    <div class="drawer-side z-50">
+                        <label for="mobile-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
+                        <div class="bg-base-200 min-h-full w-75 p-4 flex flex-col">
+                            <h2 class="text-xl font-bold mb-4">🛒Your Cart</h2>
+
+                            <div class="overflow-x-auto flex-grow">
+                                <table class="table w-full">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Item</th>
+                                            <th>Price</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="mobile-cart-tbody">
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="mt-4 pt-4 border-t-2 border-blue-500 flex justify-between items-center">
+                                <span class="text-lg font-bold">Total Cost:</span>
+                                <span class="text-xl font-bold text-blue-600" id="mobile-cart-total-price">$0.00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+            <!-- <a class="text-xl cursor-pointer text-blue-600 bg-none"><i class="fa-solid fa-cart-plus"></i></a> -->
+            <!-- </div> -->
             <div class="">
                 <ul class="menu menu-horizontal  px-1 hidden lg:flex">
                     <li><a href="/">Home</a></li>
@@ -163,9 +232,15 @@
         </div> -->
         <span class="loading loading-dots loading-xl hidden" id="spinner"></span>
         <div id="trending_product" class="flex flex-wrap gap-5 justify-center">
-
+            
         </div>
     </section>
+
+
+
+
+
+
     <footer>
         <div class="footer sm:footer-horizontal bg-[#1E2939] text-neutral-content p-10 md:px-35">
             <nav>
@@ -219,7 +294,7 @@
 
     <dialog id="my_modal_1" class="modal">
         <div class="modal-box" id="modal_box">
-            
+
         </div>
     </dialog>
 
