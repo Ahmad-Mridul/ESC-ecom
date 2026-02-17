@@ -182,48 +182,57 @@ let drawerUl = document.getElementById("drawer-items");
 
 
 
+let cartTbody = document.getElementById("cart-tbody");
+let cartTotalPriceEl = document.getElementById("cart-total-price");
+
 
 const loadCartProductsList = async () => {
-    drawerUl.innerHTML = "";
+    cartTbody.innerHTML = "";
+
     let count = 0;
-    let cartPrices = parseInt(localStorage.getItem("TotalCartPrice"))||0;
+    let currentTotal = 0; 
+
     const cartProductsID = localStorage.getItem("CartProductsIDs");
     const idsArray = cartProductsID ? cartProductsID.split(",").map(Number) : [];
-    
-    // fetch products
+
     const res = await fetch("https://fakestoreapi.com/products");
     const products = await res.json();
-    let hr = document.createElement("hr");
-    hr.classList.add("h-2", "w-full", "text-blue-500");
-    let totalCartPrice = document.createElement("div");
-    totalCartPrice.classList.add("flex","justify-between");
-    // filtered Product
+
     idsArray.forEach(id => {
         const product = products.find(p => p.id === id);
 
         if (product) {
-            let drawerContentLi = document.createElement("li");
             count += 1;
-            cartPrices+=product.price;
-            drawerContentLi.innerHTML = `
-                <div class="flex">
-                    <div><span class="font-bold">${count}.</span>  ${product.title}</div>
-                    <div>$${product.price}</div>
-                </div>
+            currentTotal += product.price; 
+
+            
+            const shortTitle = product.title.length > 15 ? product.title.substring(0, 15) + "..." : product.title;
+
+            let tr = document.createElement("tr");
+            tr.innerHTML = `
+                <th>${count}</th>
+                <td class="text-sm"">${shortTitle}</td>
+                <td class="font-semibold">$${product.price.toFixed(2)}</td>
+                <td><button class="btn btn-error btn-xs text-white" onClick="handleDeleteCartItem(${product.id})"><i class="fa-solid fa-trash"></i></button></td>
             `;
-            drawerUl.append(drawerContentLi);
+            cartTbody.append(tr);
         }
-        drawerUl.append(hr);
-        totalCartPrice.innerHTML=`
-            <p>Total Cost:</p>
-            <p>${cartPrices}</P>
-        `
-        drawerUl.append(totalCartPrice);
     });
+    cartTotalPriceEl.innerText = `$${currentTotal.toFixed(2)}`;
 }
 
 
 loadCartProductsList();
 
-{/* <li><a>Sidebar Item 1</a></li>
-<li><a>Sidebar Item 2</a></li> */}
+
+const handleDeleteCartItem = (id) => {
+    const cartProductsID = localStorage.getItem("CartProductsIDs");
+    const cartItemsNumber = localStorage.getItem("CartItems");
+    let cartItems = parseInt(cartItemsNumber);
+    cartItems-=1;
+    const idsArray = cartProductsID ? cartProductsID.split(",").map(Number) : [];
+    idsArray.pop(id);
+    localStorage.setItem("CartProductsIDs",idsArray);
+    localStorage.setItem("CartItems",cartItems);
+    loadCartProductsList();
+}
