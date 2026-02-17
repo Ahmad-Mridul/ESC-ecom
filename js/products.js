@@ -1,7 +1,7 @@
 let ourProducts = document.getElementById("our_products");
 let spinner = document.getElementById("spinner");
 let modalBox = document.getElementById("modal_box");
-
+let allFetchedProducts = [];
 
 
 async function loadProduct() {
@@ -9,7 +9,7 @@ async function loadProduct() {
     await fetch("https://fakestoreapi.com/products")
         .then(res => res.json())
         .then(data => {
-            // allProducts = data;
+            allFetchedProducts = data;
             displayProducts(data);
             spinner.classList.add("hidden");
             // setTimeout(() => {
@@ -52,30 +52,30 @@ const displayProducts = (allProducts) => {
 
 
                 <div class="flex gap-2">
-                    <button class="btn btn-outline-white shadow flex-grow px-5 py-1" onclick="my_modal_1.showModal()"><i class="fa-regular fa-eye"></i> Details</button>
+                    <button class="btn btn-outline-white shadow flex-grow px-5 py-1" onclick="openDetailsModal(${product.id})"><i class="fa-regular fa-eye"></i> Details</button>
                     <button class="btn btn-primary shadow flex-grow" onClick="handleAddToCart(${product.id})"><i class="fa-solid fa-cart-shopping"></i> Add</button>
                 </div>
             </div>
         `
-        modalBox.innerHTML = `
-        <h3 class="text-lg font-bold">${product.title}</h3>
-            <p class="py-4 text-justify">${product.description}</p>
-            <div class="flex justify-between">
-                <p class="py-2">Price: <span class="font-bold">$${product.price}</span></p>
-                <p class="py-2">Rating: <i class="fa-solid fa-star text-yellow-400"></i> ${product.rating.rate}</p>
-            </div>
-            <div class="mt-5">
-                <button class="btn btn-info text-white">Buy Now</button>
-                <button class="btn btn-warning text-white" onClick="handleAddToCart()">Add to Cart</button>
-            </div>
-            <div class="modal-action">
-                <form method="dialog">
-                    <!-- if there is a button in form, it will close the modal -->
-                    <button class="btn">Close</button>
-                </form>
-            </div>
-        
-        `
+        // modalBox.innerHTML = `
+        // <h3 class="text-lg font-bold">${product.title}</h3>
+        //     <p class="py-4 text-justify">${product.description}</p>
+        //     <div class="flex justify-between">
+        //         <p class="py-2">Price: <span class="font-bold">$${product.price}</span></p>
+        //         <p class="py-2">Rating: <i class="fa-solid fa-star text-yellow-400"></i> ${product.rating.rate}</p>
+        //     </div>
+        //     <div class="mt-5">
+        //         <button class="btn btn-info text-white">Buy Now</button>
+        //         <button class="btn btn-warning text-white" onClick="handleAddToCart(${product.id})">Add to Cart</button>
+        //     </div>
+        //     <div class="modal-action">
+        //         <form method="dialog">
+        //             <!-- if there is a button in form, it will close the modal -->
+        //             <button class="btn">Close</button>
+        //         </form>
+        //     </div>
+
+        // `
         ourProducts.append(cardDiv);
     });
 }
@@ -123,6 +123,7 @@ const loadCategoryProduct = async (category) => {
         .then(res => res.json())
         .then(data => {
             spinner.classList.add("hidden");
+            allFetchedProducts = data;
             displayProducts(data);
             // setTimeout(()=>{
             //     },randomDelay);
@@ -130,59 +131,99 @@ const loadCategoryProduct = async (category) => {
 }
 
 
-// if(cartItems===0){
-//    cartNumber.innerText = ""; 
-// }else{
-//     cartNumber.innerText = cartItems; 
-// }
+const openDetailsModal = (productId) => {
+    const product = allFetchedProducts.find(p => p.id === productId);
+    if (!product) return;
+
+    modalBox.innerHTML = `
+        <h3 class="text-lg font-bold">${product.title}</h3>
+        <p class="py-4 text-justify">${product.description}</p>
+        <div class="flex justify-between">
+            <p class="py-2">Price: <span class="font-bold">$${product.price}</span></p>
+            <p class="py-2">Rating: <i class="fa-solid fa-star text-yellow-400"></i> ${product.rating.rate}</p>
+        </div>
+        <div class="mt-5">
+            <button class="btn btn-info text-white">Buy Now</button>
+            <button class="btn btn-warning text-white" onClick="handleAddToCart(${product.id}); my_modal_1.close()">Add to Cart</button>
+        </div>
+        <div class="modal-action">
+            <form method="dialog">
+                <button class="btn">Close</button>
+            </form>
+        </div>
+    `;
+    my_modal_1.showModal();
+}
 
 
-
-
-let cartProductsIDList = [];
 let cartNumber = document.getElementById("cartNumber");
-let cartItems = 0;
+let cartItems = parseInt(localStorage.getItem("CartItems")) || 0;
+
+let storedIds = localStorage.getItem("CartProductsIDs");
+let cartProductsIDList = storedIds ? storedIds.split(",") : [];
 // localStorage.setItem("CartItems",cartItems);
 const handleAddToCart = (id) => {
+
     cartItems += 1;
-    // let localItems = parseInt(localStorage.getItem("CartItems"));
     localStorage.setItem("CartItems", cartItems);
-    // console.log(typeof localItems);
-    cartNumber.innerText = localStorage.getItem("CartItems");
+    cartNumber.innerText = cartItems;
+
     cartProductsIDList.push(id);
-    localStorage.setItem("CartProductsIDs", cartProductsIDList);
+    localStorage.setItem("CartProductsIDs", cartProductsIDList.join(","));
+    loadCartProductsList();
 }
-cartNumber.innerText = localStorage.getItem("CartItems");
+cartNumber.innerText = cartItems;
 
 
 let drawerUl = document.getElementById("drawer-items");
 
+
+
+
+
+
+
 const loadCartProductsList = async () => {
+    drawerUl.innerHTML = "";
     let count = 0;
+    let cartPrices = parseInt(localStorage.getItem("TotalCartPrice"))||0;
     const cartProductsID = localStorage.getItem("CartProductsIDs");
     const idsArray = cartProductsID ? cartProductsID.split(",").map(Number) : [];
-
+    
     // fetch products
     const res = await fetch("https://fakestoreapi.com/products");
     const products = await res.json();
-
+    let hr = document.createElement("hr");
+    hr.classList.add("h-2", "w-full", "text-blue-500");
+    let totalCartPrice = document.createElement("div");
+    totalCartPrice.classList.add("flex","justify-between");
     // filtered Product
-    const filteredProducts = products.filter(product => idsArray.includes(product.id));
-    filteredProducts.map(product => {
-        let drawerContentLi = document.createElement("li");
-        count += 1;
-        drawerContentLi.innerHTML = `
-            <div class="flex">
-                <div><span class="font-bold">${count}.</span>  ${product.title}</div>
-                <div>$${product.price}</div>
-            </div>
-            <hr class="h-2 w-full text-blue-500"/>
-        `;
-        drawerUl.append(drawerContentLi);
+    idsArray.forEach(id => {
+        const product = products.find(p => p.id === id);
+
+        if (product) {
+            let drawerContentLi = document.createElement("li");
+            count += 1;
+            cartPrices+=product.price;
+            drawerContentLi.innerHTML = `
+                <div class="flex">
+                    <div><span class="font-bold">${count}.</span>  ${product.title}</div>
+                    <div>$${product.price}</div>
+                </div>
+            `;
+            drawerUl.append(drawerContentLi);
+        }
+        drawerUl.append(hr);
+        totalCartPrice.innerHTML=`
+            <p>Total Cost:</p>
+            <p>${cartPrices}</P>
+        `
+        drawerUl.append(totalCartPrice);
     });
 }
-loadCartProductsList();
 
+
+loadCartProductsList();
 
 {/* <li><a>Sidebar Item 1</a></li>
 <li><a>Sidebar Item 2</a></li> */}
